@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import '../App.css';
 import axios from 'axios';
+import { useParams, Link } from "react-router-dom";
+
+function withParams(Component) {
+  return props => <Component {...props} params={useParams()} />;
+}
 
 class showBookDetails extends Component {
   constructor(props) {
@@ -13,7 +18,7 @@ class showBookDetails extends Component {
   componentDidMount() {
     // console.log("Print id: " + this.props.match.params.id);
     axios
-      .get('http://localhost:8082/api/books/' + this.props.match.params.id)
+      .get('http://localhost:8082/api/books/' + this.props.params.id)
       .then(res => {
         // console.log("Print-showBookDetails-API-response: " + res.data);
         this.setState({
@@ -91,9 +96,9 @@ class showBookDetails extends Component {
           <div className="row">
             <div className="col-md-10 m-auto">
               <br /> <br />
-              {/* <Link to="/" className="btn btn-outline-warning float-left">
+              <Link to="/" className="btn btn-outline-warning float-left">
                 Show Book List
-              </Link> */}
+              </Link>
             </div>
             <br />
             <div className="col-md-8 m-auto">
@@ -114,9 +119,9 @@ class showBookDetails extends Component {
             </div>
 
             <div className="col-md-6">
-              {/* <Link to={`/edit-book/${book._id}`} className="btn btn-outline-info btn-lg btn-block">
+              <Link to={`/edit-book/${book._id}`} className="btn btn-outline-info btn-lg btn-block">
                 Edit Book
-              </Link> */}
+              </Link>
               <br />
             </div>
 
@@ -131,4 +136,5 @@ class showBookDetails extends Component {
   }
 }
 
-export default showBookDetails;
+
+export default withParams(showBookDetails);
